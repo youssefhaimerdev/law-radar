@@ -92,10 +92,190 @@ function Stars() {
   return <div style={{ display: 'flex', gap: 2, marginBottom: 16 }}>{[1,2,3,4,5].map(i => <span key={i} style={{ color: '#F59E0B', fontSize: 15 }}>★</span>)}</div>
 }
 
+// ── Demo Modal ───────────────────────────────────────────────
+function DemoModal({ onClose }) {
+  const [tab, setTab] = useState('alerts')
+
+  const DEMO_ALERTS = [
+    { abbr:'WA', n:'Washington',    v:'high',   c:4, law:'HB 2057 — Statewide Just Cause Eviction',     d:'May 30, 2026',     a:'Review all pending evictions and non-renewals immediately. Documented justification required for every case.', s:"Just cause eviction requirements expanded statewide. All landlords must document just cause for every eviction and non-renewal of tenancy." },
+    { abbr:'CA', n:'California',    v:'high',   c:3, law:'AB 414 — Security Deposit Reform Act',         d:'June 15, 2026',    a:'Update lease templates. Implement timestamped photo workflow for all move-ins and move-outs.', s:"Landlords may now agree electronically on deposit refund procedures. AB 2801 adds mandatory timestamped photo documentation." },
+    { abbr:'NJ', n:'New Jersey',    v:'high',   c:3, law:'Anti-Eviction Protection Act Amendment 2026',  d:'July 1, 2026',     a:'Review all 3+ year tenancies. Budget relocation assistance for any planned owner move-ins.', s:"Long-term tenant protections expanded. Owner move-ins now require 3 months notice plus 3 months rent as mandatory relocation assistance." },
+    { abbr:'FL', n:'Florida',       v:'medium', c:1, law:'SB 892 — Notice Period Extension',             d:'August 1, 2026',   a:'Update termination clauses for Broward, Dade, Palm Beach, and Hillsborough county properties.', s:"Notice period extended from 30 to 45 days for month-to-month tenancies in counties over 500K population." },
+    { abbr:'OR', n:'Oregon',        v:'high',   c:2, law:'SB 611 — Rent Control Reduction 2026',         d:'June 1, 2026',     a:'Recalculate all planned rent increases. Portland properties capped at 5% regardless of state formula.', s:"Annual rent increase cap reduced from 10% to 7% above CPI. Portland adds an additional 5% city-level cap." },
+  ]
+  const CHAT = [
+    { r:'ai', t:"Hi! I'm your LawRadar AI. Ask me anything about rental laws in your states — plain English, grounded in real legislation." },
+    { r:'user', t:"Can I still increase rent in California this year?" },
+    { r:'ai', t:"Yes — but with limits. Under AB 1482, most California landlords are capped at 5% plus local CPI, with an absolute maximum of 10%. For 2026, that means most properties are capped at around 8.5%. Single-family homes owned by individuals are exempt if you give proper notice. Always check your specific city — some like LA and San Francisco have additional local caps." },
+    { r:'user', t:"What if my tenant hasn't paid rent for 2 months in Washington?" },
+    { r:'ai', t:"Under Washington's updated law, you can still serve a 3-day Pay or Vacate notice for non-payment. However, since HB 2057 took effect, you must document this as your just cause reason before filing any eviction. Keep all payment records and the notice itself — courts in Washington are strict about documentation. Note: This is general information, not legal advice." },
+  ]
+  const lv = (v) => ({ high:{ hex:'#EF4444', bg:'rgba(239,68,68,0.12)', border:'rgba(239,68,68,0.3)', label:'Urgent' }, medium:{ hex:'#F59E0B', bg:'rgba(245,158,11,0.1)', border:'rgba(245,158,11,0.28)', label:'Attention' } }[v] || {})
+
+  return (
+    <div style={{ position:'fixed', inset:0, zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:24 }}
+      onClick={onClose}>
+      {/* Backdrop */}
+      <div style={{ position:'absolute', inset:0, background:'rgba(0,0,0,0.85)', backdropFilter:'blur(8px)' }} />
+
+      {/* Modal */}
+      <div style={{ position:'relative', width:'100%', maxWidth:900, maxHeight:'90vh', background:'#0D1425', border:`1px solid rgba(255,255,255,0.1)`, borderRadius:24, overflow:'hidden', display:'flex', flexDirection:'column', boxShadow:'0 40px 120px rgba(0,0,0,0.8)' }}
+        onClick={e=>e.stopPropagation()}>
+
+        {/* Modal header */}
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'20px 28px', borderBottom:`1px solid rgba(255,255,255,0.07)`, flexShrink:0 }}>
+          <div>
+            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:4 }}>
+              <div style={{ width:28, height:28, background:C.gold, borderRadius:7, display:'flex', alignItems:'center', justifyContent:'center', fontSize:14 }}>⚖️</div>
+              <span style={{ fontFamily:SERIF, fontSize:18, fontWeight:700 }}>LawRadar — Product Demo</span>
+            </div>
+            <p style={{ fontSize:13, color:C.textMid }}>See exactly what landlords get when they sign up</p>
+          </div>
+          <button onClick={onClose} style={{ background:'rgba(255,255,255,0.07)', border:'none', color:C.textMid, width:36, height:36, borderRadius:9, cursor:'pointer', fontSize:18, display:'flex', alignItems:'center', justifyContent:'center' }}>✕</button>
+        </div>
+
+        {/* Tabs */}
+        <div style={{ display:'flex', gap:4, padding:'16px 28px 0', borderBottom:`1px solid rgba(255,255,255,0.07)`, flexShrink:0 }}>
+          {[
+            { id:'alerts',    label:'⚠️  Active Alerts' },
+            { id:'score',     label:'📊  Compliance Score' },
+            { id:'ai',        label:'🤖  Ask the Law AI' },
+          ].map(t=>(
+            <button key={t.id} onClick={()=>setTab(t.id)} style={{ background: tab===t.id ? C.amberBg : 'transparent', border:`1px solid ${tab===t.id ? C.amberBorder : 'transparent'}`, borderBottom: tab===t.id ? `1px solid ${C.amberBg}` : '1px solid transparent', borderRadius:'8px 8px 0 0', padding:'10px 18px', color: tab===t.id ? C.gold : C.textMid, fontSize:14, fontWeight: tab===t.id ? 600 : 400, cursor:'pointer' }}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab content */}
+        <div style={{ overflowY:'auto', flex:1, padding:28 }}>
+
+          {/* Alerts tab */}
+          {tab==='alerts' && (
+            <div>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
+                <div>
+                  <h3 style={{ fontFamily:SERIF, fontSize:18, fontWeight:700, marginBottom:4 }}>Your Active Law Alerts</h3>
+                  <p style={{ fontSize:13, color:C.textMid }}>5 states monitored · 13 changes requiring attention</p>
+                </div>
+                <div style={{ background:'rgba(239,68,68,0.12)', border:'1px solid rgba(239,68,68,0.28)', borderRadius:10, padding:'8px 16px', fontSize:13, color:'#FCA5A5', fontWeight:600 }}>🔴 3 Urgent deadlines this month</div>
+              </div>
+              <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+                {DEMO_ALERTS.map(a => {
+                  const l = lv(a.v)
+                  return (
+                    <div key={a.abbr} style={{ background:'#111927', border:`1px solid ${l.border}`, borderRadius:16, padding:22 }}>
+                      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:12 }}>
+                        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+                          <div style={{ width:38, height:38, borderRadius:9, background:l.bg, border:`1px solid ${l.border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:800, color:l.hex }}>{a.abbr}</div>
+                          <div>
+                            <div style={{ fontWeight:600, fontSize:15, color:C.text }}>{a.n}</div>
+                            <div style={{ fontSize:12, color:l.hex, fontWeight:600 }}>{a.law}</div>
+                          </div>
+                        </div>
+                        <div style={{ display:'flex', alignItems:'center', gap:10, flexShrink:0 }}>
+                          <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em', background:l.bg, border:`1px solid ${l.border}`, color:l.hex, padding:'3px 9px', borderRadius:100 }}>{l.label}</span>
+                          {a.d && <span style={{ fontSize:12, color:'#EF4444', fontWeight:700, background:'rgba(239,68,68,0.1)', padding:'4px 10px', borderRadius:7 }}>⏰ {a.d}</span>}
+                        </div>
+                      </div>
+                      <p style={{ fontSize:13, color:C.textMid, lineHeight:1.65, marginBottom:12 }}>{a.s}</p>
+                      <div style={{ background:C.amberBg, border:`1px solid ${C.amberBorder}`, borderRadius:9, padding:'10px 14px', fontSize:13, color:C.goldLight }}>
+                        <span style={{ color:C.gold, fontWeight:700, fontSize:11, textTransform:'uppercase', letterSpacing:'0.08em' }}>Action: </span>{a.a}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Score tab */}
+          {tab==='score' && (
+            <div>
+              <h3 style={{ fontFamily:SERIF, fontSize:18, fontWeight:700, marginBottom:20 }}>Your Compliance Dashboard</h3>
+              <div style={{ display:'grid', gridTemplateColumns:'200px 1fr', gap:24, marginBottom:24 }}>
+                {/* Score ring */}
+                <div style={{ background:'#111927', border:`1px solid ${C.border}`, borderRadius:18, padding:28, display:'flex', flexDirection:'column', alignItems:'center', gap:14 }}>
+                  <svg width={130} height={130} style={{ transform:'rotate(-90deg)' }}>
+                    <circle cx={65} cy={65} r={52} fill="none" stroke="#1C2536" strokeWidth={10} />
+                    <circle cx={65} cy={65} r={52} fill="none" stroke="#F59E0B" strokeWidth={10} strokeDasharray={2*Math.PI*52} strokeDashoffset={2*Math.PI*52*(1-0.67)} strokeLinecap="round" />
+                  </svg>
+                  <div style={{ textAlign:'center', marginTop:-130+10 }}>
+                    <div style={{ fontSize:36, fontWeight:700, color:C.text, fontFamily:SERIF }}>67</div>
+                    <div style={{ fontSize:11, color:C.gold, fontWeight:600 }}>/ 100</div>
+                  </div>
+                  <div style={{ textAlign:'center', marginTop:110 }}>
+                    <div style={{ fontSize:13, fontWeight:600 }}>Compliance Score</div>
+                    <div style={{ fontSize:12, color:C.gold, marginTop:4 }}>⚠ Action needed</div>
+                  </div>
+                </div>
+                {/* State breakdown */}
+                <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+                  {DEMO_ALERTS.map(a => {
+                    const l = lv(a.v)
+                    return (
+                      <div key={a.abbr} style={{ background:'#111927', border:`1px solid ${C.border}`, borderRadius:12, padding:'14px 18px', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+                          <div style={{ width:32, height:32, borderRadius:7, background:l.bg, border:`1px solid ${l.border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:800, color:l.hex }}>{a.abbr}</div>
+                          <div>
+                            <div style={{ fontSize:14, fontWeight:500, color:C.text }}>{a.n}</div>
+                            <div style={{ fontSize:11, color:C.textMid }}>{a.c} change{a.c!==1?'s':''} detected</div>
+                          </div>
+                        </div>
+                        <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em', background:l.bg, border:`1px solid ${l.border}`, color:l.hex, padding:'3px 9px', borderRadius:100 }}>{l.label}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+              <div style={{ background:C.amberBg, border:`1px solid ${C.amberBorder}`, borderRadius:14, padding:'18px 22px' }}>
+                <p style={{ fontSize:14, color:C.goldLight, lineHeight:1.65 }}>
+                  <strong style={{ color:C.gold }}>To reach 100/100:</strong> Review the 3 urgent Washington and California alerts, update your lease templates with the new deposit clause, and mark the June 15 deadline as complete in your action calendar.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* AI tab */}
+          {tab==='ai' && (
+            <div>
+              <h3 style={{ fontFamily:SERIF, fontSize:18, fontWeight:700, marginBottom:6 }}>Ask the Law AI</h3>
+              <p style={{ fontSize:13, color:C.textMid, marginBottom:20 }}>Powered by Gemini · Grounded in real state legislation · Available 24/7</p>
+              <div style={{ background:'#111927', border:`1px solid ${C.border}`, borderRadius:16, padding:20, display:'flex', flexDirection:'column', gap:12, marginBottom:16 }}>
+                {CHAT.map((m,i)=>(
+                  <div key={i} style={{ display:'flex', justifyContent: m.r==='user' ? 'flex-end' : 'flex-start', gap:10 }}>
+                    {m.r==='ai' && <div style={{ width:28, height:28, borderRadius:'50%', background:C.amberBg, border:`1px solid ${C.amberBorder}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, flexShrink:0, marginTop:2 }}>⚖️</div>}
+                    <div style={{ maxWidth:'80%', padding:'11px 15px', borderRadius:14, fontSize:13.5, lineHeight:1.65, background: m.r==='user' ? C.gold : '#1C2842', color: m.r==='user' ? '#000' : C.text, borderBottomRightRadius: m.r==='user' ? 4 : 14, borderBottomLeftRadius: m.r==='ai' ? 4 : 14 }}>
+                      {m.t}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ background:'rgba(16,185,129,0.08)', border:'1px solid rgba(16,185,129,0.22)', borderRadius:12, padding:'14px 18px', fontSize:13, color:'#6EE7B7', lineHeight:1.6 }}>
+                ✓ Answers grounded in real legislation · Links to source bills · Jurisdiction-specific · Not a substitute for a licensed attorney
+              </div>
+            </div>
+          )}
+
+        </div>
+
+        {/* Modal footer CTA */}
+        <div style={{ padding:'18px 28px', borderTop:`1px solid rgba(255,255,255,0.07)`, display:'flex', alignItems:'center', justifyContent:'space-between', flexShrink:0, background:'#0A0F1E' }}>
+          <p style={{ fontSize:14, color:C.textMid }}>This is a live preview of the actual LawRadar dashboard.</p>
+          <button onClick={()=>{ onClose(); }} style={{ background:C.gold, color:'#000', border:'none', borderRadius:10, padding:'12px 28px', fontSize:15, fontWeight:700, cursor:'pointer' }}>
+            Get Started Free →
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── MAIN COMPONENT ───────────────────────────────────────────
 export default function LandingPage({ onStart }) {
   const [mapHovered, setMapHovered] = useState(null)
   const [openFaq,    setOpenFaq]    = useState(null)
+  const [showDemo,   setShowDemo]   = useState(false)
   const totalAlerts = Object.values(SD).reduce((s, v) => s + v.c, 0)
 
   return (
@@ -123,6 +303,9 @@ export default function LandingPage({ onStart }) {
         ::-webkit-scrollbar { width:4px; }
         ::-webkit-scrollbar-thumb { background:#1E2D40; border-radius:4px; }
       `}</style>
+
+      {/* ════ DEMO MODAL ═════════════════════════════════════ */}
+      {showDemo && <DemoModal onClose={()=>setShowDemo(false)} />}
 
       {/* ════ NAV ════════════════════════════════════════════ */}
       <nav style={{ position:'sticky', top:0, zIndex:300, background:'rgba(7,12,24,0.93)', backdropFilter:'blur(20px)', borderBottom:`1px solid ${C.border}`, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 56px', height:68 }}>
@@ -169,7 +352,7 @@ export default function LandingPage({ onStart }) {
             <button className="hero-btn" onClick={onStart} style={{ background:C.gold, color:'#000', border:'none', borderRadius:12, padding:'17px 44px', fontSize:18, fontWeight:800, cursor:'pointer', animation:'goldGlow 3s ease infinite', transition:'transform 0.2s' }}>
               Start Monitoring Free
             </button>
-            <button className="hero-btn" style={{ background:'transparent', color:C.text, border:`1px solid rgba(255,255,255,0.14)`, borderRadius:12, padding:'17px 32px', fontSize:18, cursor:'pointer', transition:'transform 0.2s' }}>
+            <button className="hero-btn" style={{ background:'transparent', color:C.text, border:`1px solid rgba(255,255,255,0.14)`, borderRadius:12, padding:'17px 32px', fontSize:18, cursor:'pointer', transition:'transform 0.2s' }} onClick={()=>setShowDemo(true)}>
               Watch 2-Min Demo ▶
             </button>
           </div>
