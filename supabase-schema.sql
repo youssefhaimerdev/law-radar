@@ -1,5 +1,5 @@
 -- ============================================================
--- LawRadar — Supabase Schema
+-- LandlordShield — Supabase Schema
 -- Paste this entire file into Supabase SQL Editor and run it.
 -- ============================================================
 

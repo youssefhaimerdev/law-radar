@@ -32,7 +32,7 @@ export default function Dashboard({ user, prefs }) {
       <div style={{ width: 248, background: C.bg1, borderRight: `1px solid ${C.border}`, display: 'flex', flexDirection: 'column', padding: '28px 18px', position: 'sticky', top: 0, height: '100vh', flexShrink: 0, overflowY: 'auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32 }}>
           <div style={{ width: 32, height: 32, background: C.gold, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>⚖️</div>
-          <span style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 18, fontWeight: 700 }}>LawRadar</span>
+          <span style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 18, fontWeight: 700 }}>LandlordShield</span>
         </div>
 
         {/* Score card */}

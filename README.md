@@ -1,8 +1,8 @@
-# ⚖️ LawRadar
+# ⚖️ LandlordShield
 
 > Never get blindsided by a new landlord law again.
 
-LawRadar monitors rental legislation across all 50 US states in real-time and delivers plain-English summaries — with exactly what to update in your lease — the moment a law changes.
+LandlordShield monitors rental legislation across all 50 US states in real-time and delivers plain-English summaries — with exactly what to update in your lease — the moment a law changes.
 
 ---
 
@@ -24,7 +24,7 @@ LawRadar monitors rental legislation across all 50 US states in real-time and de
 ## Project Structure
 
 ```
-lawradar/
+landlordshield/
 ├── app/
 │   ├── layout.js                    ← Root layout, fonts, metadata
 │   ├── globals.css                  ← Global styles + animations
@@ -65,8 +65,8 @@ lawradar/
 ### 1. Clone & install
 
 ```bash
-git clone https://github.com/yourusername/lawradar.git
-cd lawradar
+git clone https://github.com/yourusername/landlordshield.git
+cd landlordshield
 npm install
 ```
 

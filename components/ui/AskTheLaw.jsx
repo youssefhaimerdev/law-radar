@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { C, AI_RESPONSES } from '@/lib/constants'
 
 export default function AskTheLaw({ states = [] }) {
-  const [msgs,  setMsgs]  = useState([{ r: 'ai', t: "Hello! I'm your LawRadar AI assistant. Ask me anything about rental laws in your monitored states — plain English, grounded in real legislation." }])
+  const [msgs,  setMsgs]  = useState([{ r: 'ai', t: "Hello! I'm your LandlordShield AI assistant. Ask me anything about rental laws in your monitored states — plain English, grounded in real legislation." }])
   const [input, setInput] = useState('')
   const [busy,  setBusy]  = useState(false)
   const bottomRef = useRef(null)

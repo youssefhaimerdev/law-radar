@@ -22,11 +22,11 @@ export default function AuthForm({ onSuccess }) {
       <div style={{ flex: 1, background: C.bg1, borderRight: `1px solid ${C.border}`, padding: 48, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ width: 34, height: 34, background: C.gold, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17 }}>⚖️</div>
-          <span style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 20, fontWeight: 700 }}>LawRadar</span>
+          <span style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 20, fontWeight: 700 }}>LandlordShield</span>
         </div>
         <div>
           <h2 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 30, fontWeight: 700, marginBottom: 24, lineHeight: 1.25, fontStyle: 'italic', color: C.textMid }}>
-            "I got fined $4,200 because I didn't know California changed the deposit rules. LawRadar would have caught it instantly."
+            "I got fined $4,200 because I didn't know California changed the deposit rules. LandlordShield would have caught it instantly."
           </h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ width: 44, height: 44, borderRadius: '50%', background: C.amberBg, border: `1px solid ${C.amberBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, color: C.gold }}>MR</div>
